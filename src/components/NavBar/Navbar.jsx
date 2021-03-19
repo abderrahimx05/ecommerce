@@ -8,22 +8,32 @@ import {
   Menu,
   Typography,
 } from "@material-ui/core";
-import { AddShoppingCart } from "@material-ui/icons";
-import classes from "*.module.css";
+import { ShoppingCart } from "@material-ui/icons";
+import logo from "../../assets/logo.png";
+import useStyles from "./styles";
 function Navbar() {
+  const classes = useStyles();
   return (
     <>
       <AppBar position="fixed" className={classes.AppBar} color="inherit">
         <Toolbar>
           <Typography variant="h6" className={classes.title} color="inherit">
             <img
-              src=""
+              src={logo}
               alt="commerce.js"
               height="25px"
               className={classes.image}
             />
-            commerce.js
+            shop now
           </Typography>
+          <div className={classes.grow} />
+          <div className={classes.button}>
+            <IconButton aria-label="show cart items" color="inherit">
+              <Badge badgeContent={2} color="secondary">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
     </>
