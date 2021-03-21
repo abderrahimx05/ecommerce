@@ -23,6 +23,14 @@ const App = () => {
     const { cart } = await commerce.cart.update(productId, { quantity });
     setCart(cart);
   };
+  const handleRemooveFromCart = async (productId) => {
+    const { cart } = await commerce.cart.remove(productId);
+    setCart(cart);
+  };
+  const handleEmptyCart = async () => {
+    const { cart } = await commerce.cart.empty();
+    setCart(cart);
+  };
   useEffect(() => {
     fetchProducts();
     fetchCart();
