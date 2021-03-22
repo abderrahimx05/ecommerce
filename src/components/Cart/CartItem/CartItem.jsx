@@ -11,6 +11,10 @@ import useStyles from "./styles";
 
 const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
   const classes = useStyles();
+  const handleUpdateCartQty = (lineItemId, newQuantity) =>
+    onUpdateCartQty(lineItemId, newQuantity);
+
+  const handleRemoveFromCart = (lineItemId) => onRemoveFromCart(lineItemId);
   return (
     <Card>
       <CardMedia
@@ -19,7 +23,7 @@ const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
         className={classes.media}
       />
       <CardContent className={classes.cardContent}>
-        <Typography variant="h4">{item.name}</Typography>
+        <Typography variant="h6">{item.name}</Typography>
         <Typography variant="h5">
           {item.line_total.formatted_with_symbol}
         </Typography>
@@ -27,17 +31,19 @@ const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
       <CardActions className={classes.cardActions}>
         <div className={classes.buttons}>
           <Button
+            className={classes.butt}
             type="button"
             size="small"
-            onClick={() => onUpdateCartQty(item.id, item.quantity - 1)}
+            onClick={() => handleUpdateCartQty(item.id, item.quantity - 1)}
           >
             -
           </Button>
           <Typography>{item.quantity}</Typography>
           <Button
+            className={classes.butt}
             type="button"
             size="small"
-            onClick={() => onUpdateCartQty(item.id, item.quantity + 1)}
+            onClick={() => handleUpdateCartQty(item.id, item.quantity + 1)}
           >
             +
           </Button>
@@ -46,7 +52,7 @@ const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
           variant="contained"
           type="button"
           color="secondary"
-          onClick={() => onRemoveFromCart(item.id)}
+          onClick={() => handleRemoveFromCart(item.id)}
         >
           Remove
         </Button>
