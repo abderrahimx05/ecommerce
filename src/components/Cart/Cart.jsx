@@ -2,13 +2,14 @@ import React from "react";
 import { Container, Typography, Button, Grid } from "@material-ui/core";
 import useStyles from "./style";
 import CartItem from "./CartItem/CartItem";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { Link } from "react-router-dom";
 const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
   const classes = useStyles();
   const handleEmptyCart = () => onEmptyCart();
   const EmptyCart = () => (
     <Typography variant="subtitle1">
-      You have no items in your shopping cart !
+      You have no items in your shopping cart.
       <Link to="/" className={classes.link}>
         Add some from here !
       </Link>
@@ -38,6 +39,7 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
             type="button"
             justify="space-between"
             variant="contained"
+            startIcon={<DeleteIcon />}
             color="secondary"
             onClick={handleEmptyCart}
           >
@@ -49,8 +51,8 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
             type="button"
             variant="contained"
             color="primary"
-            // component={Link}
-            // to="/checkout"
+            component={Link}
+            to="/checkout"
           >
             Checkout
           </Button>
