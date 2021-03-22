@@ -18,17 +18,18 @@ const AdressForm = ({ checkoutToken }) => {
   const [shippingSubdivision, setShippingSubdivision] = useState("");
   const [shippingOptions, setShippingOptions] = useState([]);
   const [shippingOption, setShippingOption] = useState("");
-  const coutries = Object.entries(shippingCountries).map(([code, name]) => ({
-    id: code,
-    label: name,
-  }));
-
+  //   const countries = Object.entries(shippingCountries).map(([code, name]) => ({
+  //     id: code,
+  //     label: name,
+  //   }));
+  //   console.log(countries);
   const fetchShippingCountries = async (checkoutTokenId) => {
     const { countries } = await commerce.services.localeListShippingCountries(
       checkoutTokenId
     );
+    console.log(countries);
     setShippingCountries(countries);
-    setShippingCountries(Object.keys(countries)[0]);
+    setShippingCountry(Object.keys(countries)[0]);
   };
   useEffect(() => {
     fetchShippingCountries(checkoutToken.id);
@@ -50,15 +51,17 @@ const AdressForm = ({ checkoutToken }) => {
             <Grid item xs={12} sm={12}>
               <InputLabel>Shipping Country</InputLabel>
               <Select
-                value=""
+                value={shippingCountry}
                 fullWidth
-                onChange={(e) => setShippingCountries(e.target.value)}
+                onChange={(e) => setShippingCountry(e.target.value)}
               >
-                {coutries.map((country) => (
-                  <MenuItem key={country.id} value={country.id}>
-                    {country.label}
-                  </MenuItem>
-                ))}
+                {Object.entries(shippingCountries)
+                  .map(([code, name]) => ({ id: code, label: name }))
+                  .map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
               </Select>
             </Grid>
             {/* <Grid item xs={12} sm={12}>

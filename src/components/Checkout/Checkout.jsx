@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { commerce } from "../../lib/commerce";
 import useStyles from "./styles";
-import AdressFrom from "./container/AdressForm";
+import AdressForm from "./container/AdressForm";
 import PaymentForm from "./container/PaymentForm";
 const steps = ["Shipping address", "Payment details"];
 const Checkout = ({ cart }) => {
@@ -34,7 +34,7 @@ const Checkout = ({ cart }) => {
 
   const Form = () =>
     activeStep === 0 ? (
-      <AdressFrom checkoutToken={checkoutToken} />
+      <AdressForm checkoutToken={checkoutToken} />
     ) : (
       <PaymentForm />
     );
