@@ -5,11 +5,56 @@ import {
   CardElement,
   ElementsConsumer,
 } from "@stripe/react-stripe-js";
-import { loadStrip, loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import Review from "./Review";
 
-const stripePromise = loadStripe("...");
-const PaymentForm = ({ checkoutToken, backStep }) => {
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+const PaymentForm = ({
+  checkoutToken,
+  backStep,
+  onCaptureCheckout,
+  nextStep,
+  shippingData,
+}) => {
+  const handleSubmit = async (event, elements, stripe) => {
+    event.preventDefault();
+    if (!stripe || !elements) return;
+    const cardElement = elements.getElement(CardElement);
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardElement,
+    });
+    if (error) {
+      console.log(error);
+    } else {
+      const orderData = {
+        line_items: checkoutToken.live.line_items,
+        customer: {
+          firstname: shippingData.firstName,
+          lastname: shippingData.lastName,
+          email: shippingData.email,
+        },
+        shipping: {
+          name: "International",
+          street: shippingData.address1,
+          town_city: shippingData.city,
+          country_state: shippingData.shippingSubdivision,
+          postal_zip_code: shippingData.zip,
+          country: shippingData.shippingCountry,
+        },
+        fulfillment: { shipping_method: shippingData.shippingOption },
+        payment: {
+          gateway: "stripe",
+          stripe: {
+            payment_method_id: paymentMethod.id,
+          },
+        },
+      };
+      onCaptureCheckout(checkoutToken.id, orderData);
+
+      nextStep();
+    }
+  };
   return (
     <>
       <Review checkoutToken={checkoutToken} />
@@ -19,8 +64,8 @@ const PaymentForm = ({ checkoutToken, backStep }) => {
       </Typography>
       <Elements stripe={stripePromise}>
         <ElementsConsumer>
-          {({ element, stripe }) => (
-            <form>
+          {({ elements, stripe }) => (
+            <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
               <CardElement />
               <br />
               <br />
