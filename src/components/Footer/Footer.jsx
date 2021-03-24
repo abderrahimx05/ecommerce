@@ -1,11 +1,11 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
+import useStyles from "./styles";
 const Footer = () => {
+  const classes = useStyles();
   return (
-    <div>
-      <Typography variant="h4" style={{ justifyContent: "center" }}>
-        AB company
-      </Typography>
+    <div className={classes.footer}>
+      <Typography variant="h6">AB company</Typography>
     </div>
   );
 };
